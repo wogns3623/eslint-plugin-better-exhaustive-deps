@@ -1,0 +1,27 @@
+{
+  "name": "eslint-plugin-better-exhaustive-deps",
+  "description": "Better react exhaustive-deps eslint plugin",
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin",
+    "react",
+    "react-hooks",
+    "exhaustive-deps"
+  ],
+  "main": "lib/index.js",
+  "files": [
+    "lib/"
+  ],
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-plugin-eslint-plugin": "^4.1.0"
+  },
+  "peerDependencies": {
+    "eslint": ">=0.8.0"
+  },
+  "packageManager": "yarn@3.2.1"
+}
