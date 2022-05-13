@@ -1,1 +1,1 @@
-# Better react-exhaustive-deps eslint plugin
+# Better react exhaustive-deps eslint plugin
