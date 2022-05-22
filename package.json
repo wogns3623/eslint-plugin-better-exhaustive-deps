@@ -1,7 +1,7 @@
 {
   "name": "@wogns3623/eslint-plugin-better-exhaustive-deps",
   "description": "Better react exhaustive-deps eslint plugin",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "source": "./lib/index.js",
   "scripts": {
     "build": "microbundle"
@@ -38,6 +38,6 @@
   "homepage": "https://github.com/wogns3623/eslint-plugin-better-exhaustive-deps",
   "bugs": {
     "url": "https://github.com/wogns3623/eslint-plugin-better-exhaustive-deps/issues",
-    "email": "getify@gmail.com"
+    "email": "wogns3623@gmail.com"
   }
 }
