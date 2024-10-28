@@ -49,7 +49,7 @@ module.exports = {
     "@wogns3623/better-exhaustive-deps/exhaustive-deps": [
       "warn",
       {
-        checkMemoizedVariableIsStatic: true,
+        "checkMemoizedVariableIsStatic": true,
       },
     ],
   },
@@ -74,12 +74,12 @@ module.exports = {
     "@wogns3623/better-exhaustive-deps/exhaustive-deps": [
       "warn",
       {
-        staticHooks: {
-          useCustomRef: true,
-          useSomething: [false, true],
-          useSomethingOther: {
-            value: false,
-            callback: true
+        "staticHooks": {
+          "useCustomRef": true,
+          "useSomething": [false, true],
+          "useSomethingOther": {
+            "value": false,
+            "callback": true
           },
         },
       },
