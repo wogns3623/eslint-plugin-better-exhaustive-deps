@@ -1,7 +1,7 @@
 {
   "name": "@wogns3623/eslint-plugin-better-exhaustive-deps",
   "description": "Better react exhaustive-deps eslint plugin",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "lib/index.js",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
