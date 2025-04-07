@@ -480,7 +480,7 @@ const rule = {
             const property = id.properties.find(
               (p): p is AssignmentProperty => {
                 if (p.type === "Property") {
-                  return p.key === resolved.identifiers[0];
+                  return p.value === resolved.identifiers[0];
                 } else {
                   // p.type === "RestElement"
                   return false;
