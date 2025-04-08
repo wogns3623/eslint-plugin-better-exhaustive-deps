@@ -33,9 +33,9 @@ importers:
       '@tsconfig/strictest':
         specifier: ^2.0.5
         version: 2.0.5
-      '@types/eslint':
-        specifier: ^8.56.12
-        version: 8.56.12
+      '@types/eslint-v8':
+        specifier: npm:@types/eslint@^8.56.12
+        version: '@types/eslint@8.56.12'
       '@types/estree':
         specifier: ^1.0.6
         version: 1.0.7
