@@ -1,7 +1,7 @@
 {
   "name": "@wogns3623/eslint-plugin-better-exhaustive-deps",
   "description": "Better ESLint rules for React Hooks",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wogns3623/eslint-plugin-better-exhaustive-deps.git"
