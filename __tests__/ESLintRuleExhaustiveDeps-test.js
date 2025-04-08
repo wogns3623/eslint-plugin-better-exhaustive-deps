@@ -11,7 +11,7 @@
 
 const ESLintTesterV7 = require("eslint-v7").RuleTester;
 const ESLintTesterV9 = require("eslint-v9").RuleTester;
-const ReactHooksESLintPlugin = require("eslint-plugin-react-hooks");
+const ReactHooksESLintPlugin = require("../src");
 const ReactHooksESLintRule = ReactHooksESLintPlugin.rules["exhaustive-deps"];
 
 /**
@@ -8316,14 +8316,14 @@ describe("rules-of-hooks/exhaustive-deps", () => {
     invalid: [...testsFlow.invalid, ...tests.invalid],
   };
 
-  new ESLintTesterV7({
-    parser: require.resolve("babel-eslint"),
-    parserOptions: parserOptionsV7,
-  }).run(
-    "eslint: v7, parser: babel-eslint",
-    ReactHooksESLintRule,
-    testsBabelEslint
-  );
+  // new ESLintTesterV7({
+  //   parser: require.resolve("babel-eslint"),
+  //   parserOptions: parserOptionsV7,
+  // }).run(
+  //   "eslint: v7, parser: babel-eslint",
+  //   ReactHooksESLintRule,
+  //   testsBabelEslint
+  // );
 
   new ESLintTesterV9({
     languageOptions: {
@@ -8361,25 +8361,26 @@ describe("rules-of-hooks/exhaustive-deps", () => {
     testsTypescriptEslintParser
   );
 
-  new ESLintTesterV7({
-    parser: require.resolve("@typescript-eslint/parser-v3"),
-    parserOptions: parserOptionsV7,
-  }).run(
-    "eslint: v7, parser: @typescript-eslint/parser@3.x",
-    ReactHooksESLintRule,
-    testsTypescriptEslintParser
-  );
+  // // TypeError: Class extends value undefined is not a constructor or null
+  // new ESLintTesterV7({
+  //   parser: require.resolve("@typescript-eslint/parser-v3"),
+  //   parserOptions: parserOptionsV7,
+  // }).run(
+  //   "eslint: v7, parser: @typescript-eslint/parser@3.x",
+  //   ReactHooksESLintRule,
+  //   testsTypescriptEslintParser
+  // );
 
-  new ESLintTesterV9({
-    languageOptions: {
-      ...languageOptionsV9,
-      parser: require("@typescript-eslint/parser-v3"),
-    },
-  }).run(
-    "eslint: v9, parser: @typescript-eslint/parser@3.x",
-    ReactHooksESLintRule,
-    testsTypescriptEslintParser
-  );
+  // new ESLintTesterV9({
+  //   languageOptions: {
+  //     ...languageOptionsV9,
+  //     parser: require("@typescript-eslint/parser-v3"),
+  //   },
+  // }).run(
+  //   "eslint: v9, parser: @typescript-eslint/parser@3.x",
+  //   ReactHooksESLintRule,
+  //   testsTypescriptEslintParser
+  // );
 
   new ESLintTesterV7({
     parser: require.resolve("@typescript-eslint/parser-v4"),

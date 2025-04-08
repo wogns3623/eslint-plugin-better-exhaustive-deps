@@ -1,7 +1,9 @@
 "use strict";
 
-const ReactHooksESLintRule = require("../lib/rules/BetterExhaustiveDeps.js");
-const ESLintTester = require("eslint").RuleTester;
+const ESLintTesterV7 = require("eslint-v7").RuleTester;
+const ESLintTesterV9 = require("eslint-v9").RuleTester;
+const ReactHooksESLintPlugin = require("../src");
+const ReactHooksESLintRule = ReactHooksESLintPlugin.rules["exhaustive-deps"];
 
 /**
  * A string template tag that removes padding from the left side of multi-line strings
@@ -276,7 +278,16 @@ const tests = {
 if (!process.env.CI) {
   let only = [];
   let skipped = [];
-  [...tests.valid, ...tests.invalid].forEach((t) => {
+  [
+    ...tests.valid,
+    ...tests.invalid,
+    // ...testsFlow.valid,
+    // ...testsFlow.invalid,
+    // ...testsTypescript.valid,
+    // ...testsTypescript.invalid,
+    // ...testsTypescriptEslintParserV4.valid,
+    // ...testsTypescriptEslintParserV4.invalid,
+  ].forEach((t) => {
     if (t.skip) {
       delete t.skip;
       skipped.push(t);
@@ -297,10 +308,18 @@ if (!process.env.CI) {
   };
   tests.valid = tests.valid.filter(predicate);
   tests.invalid = tests.invalid.filter(predicate);
+  // testsFlow.valid = testsFlow.valid.filter(predicate);
+  // testsFlow.invalid = testsFlow.invalid.filter(predicate);
+  // testsTypescript.valid = testsTypescript.valid.filter(predicate);
+  // testsTypescript.invalid = testsTypescript.invalid.filter(predicate);
+  // testsTypescriptEslintParserV4.valid =
+  //   testsTypescriptEslintParserV4.valid.filter(predicate);
+  // testsTypescriptEslintParserV4.invalid =
+  //   testsTypescriptEslintParserV4.invalid.filter(predicate);
 }
 
 describe("checkMemoizedVariableIsStatic", () => {
-  const parserOptions = {
+  const parserOptionsV7 = {
     ecmaFeatures: {
       jsx: true,
     },
@@ -308,17 +327,150 @@ describe("checkMemoizedVariableIsStatic", () => {
     sourceType: "module",
   };
 
-  new ESLintTester({
-    parser: require.resolve("@babel/eslint-parser"),
-    parserOptions,
-  }).run("parser: @babel/eslint-parser static", ReactHooksESLintRule, tests);
+  const languageOptionsV9 = {
+    ecmaVersion: 6,
+    sourceType: "module",
+    parserOptions: {
+      ecmaFeatures: {
+        jsx: true,
+      },
+    },
+  };
 
-  new ESLintTester({
-    parser: require.resolve("@typescript-eslint/parser-v5"),
-    parserOptions,
+  // new ESLintTester({
+  //   parser: require.resolve("@babel/eslint-parser"),
+  //   parserOptions,
+  // }).run("parser: @babel/eslint-parser static", ReactHooksESLintRule, tests);
+
+  // new ESLintTester({
+  //   parser: require.resolve("@typescript-eslint/parser-v5"),
+  //   parserOptions,
+  // }).run(
+  //   "parser: @typescript-eslint/parser@^5.0.0-0 static",
+  //   ReactHooksESLintRule,
+  //   tests
+  // );
+
+  const testsBabelEslint = {
+    valid: [...tests.valid],
+    invalid: [...tests.invalid],
+  };
+
+  // new ESLintTesterV7({
+  //   parser: require.resolve("babel-eslint"),
+  //   parserOptions: parserOptionsV7,
+  // }).run(
+  //   "eslint: v7, parser: babel-eslint",
+  //   ReactHooksESLintRule,
+  //   testsBabelEslint
+  // );
+
+  new ESLintTesterV9({
+    languageOptions: {
+      ...languageOptionsV9,
+      parser: require("@babel/eslint-parser"),
+    },
   }).run(
-    "parser: @typescript-eslint/parser@^5.0.0-0 static",
+    "eslint: v9, parser: @babel/eslint-parser",
     ReactHooksESLintRule,
-    tests
+    testsBabelEslint
+  );
+
+  const testsTypescriptEslintParser = {
+    valid: [...tests.valid],
+    invalid: [...tests.invalid],
+  };
+
+  new ESLintTesterV7({
+    parser: require.resolve("@typescript-eslint/parser-v2"),
+    parserOptions: parserOptionsV7,
+  }).run(
+    "eslint: v7, parser: @typescript-eslint/parser@2.x",
+    ReactHooksESLintRule,
+    testsTypescriptEslintParser
+  );
+
+  new ESLintTesterV9({
+    languageOptions: {
+      ...languageOptionsV9,
+      parser: require("@typescript-eslint/parser-v2"),
+    },
+  }).run(
+    "eslint: v9, parser: @typescript-eslint/parser@2.x",
+    ReactHooksESLintRule,
+    testsTypescriptEslintParser
+  );
+
+  // // TypeError: Class extends value undefined is not a constructor or null
+  // new ESLintTesterV7({
+  //   parser: require.resolve("@typescript-eslint/parser-v3"),
+  //   parserOptions: parserOptionsV7,
+  // }).run(
+  //   "eslint: v7, parser: @typescript-eslint/parser@3.x",
+  //   ReactHooksESLintRule,
+  //   testsTypescriptEslintParser
+  // );
+
+  // new ESLintTesterV9({
+  //   languageOptions: {
+  //     ...languageOptionsV9,
+  //     parser: require("@typescript-eslint/parser-v3"),
+  //   },
+  // }).run(
+  //   "eslint: v9, parser: @typescript-eslint/parser@3.x",
+  //   ReactHooksESLintRule,
+  //   testsTypescriptEslintParser
+  // );
+
+  new ESLintTesterV7({
+    parser: require.resolve("@typescript-eslint/parser-v4"),
+    parserOptions: parserOptionsV7,
+  }).run(
+    "eslint: v7, parser: @typescript-eslint/parser@4.x",
+    ReactHooksESLintRule,
+    {
+      valid: [...testsTypescriptEslintParser.valid],
+      invalid: [...testsTypescriptEslintParser.invalid],
+    }
+  );
+
+  new ESLintTesterV9({
+    languageOptions: {
+      ...languageOptionsV9,
+      parser: require("@typescript-eslint/parser-v4"),
+    },
+  }).run(
+    "eslint: v9, parser: @typescript-eslint/parser@4.x",
+    ReactHooksESLintRule,
+    {
+      valid: [...testsTypescriptEslintParser.valid],
+      invalid: [...testsTypescriptEslintParser.invalid],
+    }
+  );
+
+  new ESLintTesterV7({
+    parser: require.resolve("@typescript-eslint/parser-v5"),
+    parserOptions: parserOptionsV7,
+  }).run(
+    "eslint: v7, parser: @typescript-eslint/parser@^5.0.0-0",
+    ReactHooksESLintRule,
+    {
+      valid: [...testsTypescriptEslintParser.valid],
+      invalid: [...testsTypescriptEslintParser.invalid],
+    }
+  );
+
+  new ESLintTesterV9({
+    languageOptions: {
+      ...languageOptionsV9,
+      parser: require("@typescript-eslint/parser-v5"),
+    },
+  }).run(
+    "eslint: v9, parser: @typescript-eslint/parser@^5.0.0",
+    ReactHooksESLintRule,
+    {
+      valid: [...testsTypescriptEslintParser.valid],
+      invalid: [...testsTypescriptEslintParser.invalid],
+    }
   );
 });

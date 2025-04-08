@@ -20,8 +20,8 @@ global.__EXPERIMENTAL__ =
 
 global.__VARIANT__ = !!process.env.VARIANT;
 
-if (typeof window !== "undefined") {
-} else {
-  global.AbortController =
-    require("abortcontroller-polyfill/dist/cjs-ponyfill").AbortController;
-}
+// if (typeof window !== "undefined") {
+// } else {
+//   global.AbortController =
+//     require("abortcontroller-polyfill/dist/cjs-ponyfill").AbortController;
+// }
