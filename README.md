@@ -144,3 +144,4 @@ module.exports = {
 - [ ] Add presets for popular React libraries
 - [ ] Add automatic inference for whether a custom hook return value is static or not
 - [ ] Add deep nested object support for staticHooks
+- [ ] Support glob patter matching in staticHooks
