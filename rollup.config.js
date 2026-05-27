@@ -1,28 +1,26 @@
 const esbuild = require("rollup-plugin-esbuild").default;
 const replace = require("@rollup/plugin-replace");
+const dts = require("rollup-plugin-dts").default;
+const pkg = require("./package.json");
 
-const name = require("./package.json").main.replace(/\.js$/, "");
-
-const bundle = (config) => ({
-  ...config,
-  input: "src/index.ts",
-  external: (id) => !/^[./]/.test(id),
-});
+console.log(`Building ${pkg.name} v${pkg.version}...`);
 
 module.exports = [
-  bundle({
-    output: {
-      dir: "dist",
-      format: "cjs",
-    },
+  {
+    input: "src/index.ts",
+    output: [{ file: pkg.main, format: "cjs" }],
     plugins: [
       esbuild({ minify: true }),
       replace({
         preventAssignment: true,
-        values: {
-          __EXPERIMENTAL__: false,
-        },
+        values: { __EXPERIMENTAL__: false },
       }),
     ],
-  }),
+    external: (id) => !/^[./]/.test(id),
+  },
+  {
+    input: "src/index.ts",
+    output: [{ file: pkg.types, format: "es" }],
+    plugins: [dts()],
+  },
 ];

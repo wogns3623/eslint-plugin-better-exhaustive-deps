@@ -15,7 +15,7 @@ const { name, version } = require("../package.json") as {
 // All rules
 const rules = {
   "exhaustive-deps": BetterExhaustiveDeps,
-} satisfies Record<string, Rule.RuleModule>;
+} as const satisfies Record<string, Rule.RuleModule>;
 
 // Config rules
 const configRules = {
@@ -24,24 +24,20 @@ const configRules = {
     "warn",
     { checkMemoizedVariableIsStatic: true },
   ],
-} satisfies Linter.RulesRecord;
+} as const satisfies Linter.RulesRecord;
 
 // Legacy config
 const legacyRecommendedConfig = {
   plugins: ["@wogns3623/better-exhaustive-deps"],
   rules: configRules,
-} satisfies Linter.LegacyConfig;
+} as const satisfies Linter.LegacyConfig;
 
-// Plugin object
-const plugin = {
-  // TODO: Make this more dynamic to populate version from package.json.
-  // This can be done by injecting at build time, since importing the package.json isn't an option in Meta
-  meta: { name, version },
-  rules,
-  configs: {},
-} satisfies ESLint.Plugin;
+type ReactHooksFlatConfig = {
+  plugins: { react: any };
+  rules: typeof configRules;
+};
 
-Object.assign(plugin.configs, {
+const configs = {
   /** Legacy recommended config, to be used with rc-based configurations */
   "recommended-legacy": legacyRecommendedConfig,
 
@@ -52,18 +48,27 @@ Object.assign(plugin.configs, {
   recommended: legacyRecommendedConfig,
 
   /** Latest recommended config, to be used with flat configurations */
+  "recommended-latest": {} as ReactHooksFlatConfig,
+};
+
+// Plugin object
+const plugin = {
+  // TODO: Make this more dynamic to populate version from package.json.
+  // This can be done by injecting at build time, since importing the package.json isn't an option in Meta
+  meta: { name, version },
+  rules,
+  configs,
+} satisfies ESLint.Plugin;
+
+Object.assign(configs, {
   "recommended-latest": {
     name: "@wogns3623/better-exhaustive-deps/recommended",
-    plugins: {
-      "@wogns3623/better-exhaustive-deps": plugin,
-    },
+    plugins: { "@wogns3623/better-exhaustive-deps": plugin },
     rules: configRules,
-  },
+  } satisfies Linter.Config<Linter.RulesRecord>,
 });
 
-const configs = plugin.configs;
-const meta = plugin.meta;
-export { configs, meta, rules };
+export default plugin;
 
 // TODO: If the plugin is ever updated to be pure ESM and drops support for rc-based configs, then it should be exporting the plugin as default
 // instead of individual named exports.
